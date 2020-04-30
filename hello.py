@@ -37,7 +37,7 @@ class SlurmInfo:
     # SLURM_PROCID
     task_idx: int
     num_tasks: int
-    num_tasks_per_node: int
+    # num_tasks_per_node: int
 
     node_idx: int
     node_name: str
@@ -64,7 +64,7 @@ class SlurmInfo:
             step_idx=int(os.environ["SLURM_STEP_ID"]),
             task_idx=int(os.environ["SLURM_PROCID"]),
             num_tasks=int(os.environ["SLURM_STEP_NUM_TASKS"]),
-            num_tasks_per_node=int(os.environ["SLURM_STEP_TASKS_PER_NODE"]),
+            # num_tasks_per_node=int(os.environ["SLURM_STEP_TASKS_PER_NODE"]),
             num_nodes=int(os.environ["SLURM_STEP_NUM_NODES"]),
             debug=int(os.environ["SRUN_DEBUG"]),
             node_name=os.environ["SLURMD_NODENAME"],

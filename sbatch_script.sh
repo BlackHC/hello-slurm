@@ -10,7 +10,9 @@ export CONDA_ENVS_PATH=/scratch-ssd/$USER/conda_envs
 export CONDA_PKGS_DIRS=/scratch-ssd/$USER/conda_pkgs
 export TMPDIR=/scratch/${USER}/tmp
 
-ENV_PATH=/scratch-ssd/$USER/conda_envs/hello-slurm-${SLURM_JOB_ID}
+mkdir -p $TMPDIR
+
+export ENV_PATH=/scratch-ssd/$USER/conda_envs/hello-slurm-${SLURM_JOB_ID}
 
 echo "SBATCH node: $(hostname)"
 

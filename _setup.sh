@@ -1,10 +1,10 @@
 #!/bin/bash
-#eg setup.sh /scratch-ssd/$USER/conda_envs/hello-slurm
+# _setup.sh /scratch-ssd/$USER/conda_envs/hello-slurm
 
 # Uncomment to enable tracing
 #set -x
 
-echo "SETUP node $(hostname)"
+echo "Node $(hostname)"
 
 ENV_PATH="$1"
 
@@ -20,4 +20,4 @@ source activate "$ENV_PATH"
 # Install conda and pip packages now.
 conda install -q -y pytorch torchvision cudatoolkit=10.2 -c pytorch
 
-nvidia-smi
+# nvidia-smi || true
