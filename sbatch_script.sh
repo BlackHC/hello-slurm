@@ -1,14 +1,11 @@
 #!/bin/bash
 #SBATCH --job-name="hello-slurm"
+#SBATCH --cpus-per-task=4
 #SBATCH --output="slurm-%j.batch.out"
 
-# Example:
-# sbatch sbatch_script.sh python hello.py
-
 echo "SBATCH node: $(hostname)"
-echo "Arguments: $@"
 
-# Exit when any command fails
+# exit when any command fails
 set -e
 
 # Uncomment to enable tracing
@@ -17,11 +14,22 @@ set -x
 export PATH="/scratch-ssd/oatml/miniconda3/bin:$PATH"
 export CONDA_ENVS_PATH=/scratch-ssd/$USER/conda_envs
 export CONDA_PKGS_DIRS=/scratch-ssd/$USER/conda_pkgs_cache
-export TMPDIR=/scratch/${USER}/tmp
+export TMPDIR=/scratch-ssd/${USER}/tmp
 
 mkdir -p $TMPDIR
 
-export ENV_PATH=/scratch-ssd/$USER/conda_envs/hello-slurm-${SLURM_JOB_ID}
+export ENV_PATH=/scratch-ssd/$USER/conda_envs/uib-$SLURM_JOB_ID
 
-srun --output="slurm-%j.%t.setup.out" --ntasks-per-node=1 ./_setup.sh "$ENV_PATH" && \
-    srun --output="slurm-%j.%t.experiment.out" ./_run_experiment.sh "$ENV_PATH" "$@"
+function cleanup() {
+    ./_cleanup.sh "$ENV_PATH"
+}
+trap cleanup EXIT
+
+# Only one task/node when running with job arrays.
+#srun --output="slurm-%j.%t.setup.out" --ntasks-per-node=1 \
+/scratch-ssd/oatml/scripts/run_locked.sh ./_setup.sh "$ENV_PATH" && \
+    srun --output="slurm-%j.%t.experiment.out" ./_run_experiment.sh "$ENV_PATH" "$@" \
+        --id $SLURM_ARRAY_TASK_ID
+        #--num_workers 8
+
+

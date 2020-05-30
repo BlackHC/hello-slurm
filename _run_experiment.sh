@@ -1,12 +1,13 @@
 #!/bin/bash
 # _run_experiment.sh /scratch-ssd/$USER/conda_envs/hello-slurm ...
 
+echo "Node $(hostname)"
+
 # Exit when any command fails
 set -e
 
 # Uncomment to enable tracing
 set -x
-echo "Node $(hostname)"
 
 ENV_PATH="$1"
 
