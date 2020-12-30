@@ -16,9 +16,12 @@ export CONDA_ENVS_PATH=/scratch-ssd/$USER/conda_envs
 export CONDA_PKGS_DIRS=/scratch-ssd/$USER/conda_pkgs_cache
 export TMPDIR=/scratch-ssd/${USER}/tmp
 
+# This is a configuration option for _setup.sh
+export PYTHON_VERSION=3.8
+
 mkdir -p $TMPDIR
 
-export ENV_PATH=/scratch-ssd/$USER/conda_envs/uib-$SLURM_JOB_ID
+export ENV_PATH=/scratch-ssd/$USER/conda_envs/job-$SLURM_JOB_ID
 
 function cleanup() {
     ./_cleanup.sh "$ENV_PATH"
@@ -27,9 +30,6 @@ trap cleanup EXIT
 
 # Only one task/node when running with job arrays.
 #srun --output="slurm-%j.%t.setup.out" --ntasks-per-node=1 \
-/scratch-ssd/oatml/scripts/run_locked.sh ./_setup.sh "$ENV_PATH" && \
+./_run_locked.sh ./_setup.sh "$ENV_PATH" && \
     srun --output="slurm-%j.%t.experiment.out" ./_run_experiment.sh "$ENV_PATH" "$@" \
         --id $SLURM_ARRAY_TASK_ID
-        #--num_workers 8
-
-

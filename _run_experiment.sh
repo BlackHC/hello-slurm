@@ -12,6 +12,7 @@ set -x
 ENV_PATH="$1"
 
 export CONDA_ENVS_PATH=/scratch-ssd/$USER/conda_envs
+export FASTAI_HOME=/scratch-ssd/$USER/.fastai
 
 source activate "$ENV_PATH"
 
