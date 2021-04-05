@@ -11,7 +11,7 @@ Comes as is.
 Set environment variables:
 
 * `CLOUD_TYPE` to either `arc` or `oatml`.
-* 'SLURM_MAIL' to your preferred email address to receive notifications (or e.g. a slack integration)
+* `SLURM_MAIL` to your preferred email address to receive notifications (or e.g. a slack integration)
 
 ## Helpers
 
