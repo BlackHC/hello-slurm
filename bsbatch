@@ -2,7 +2,7 @@
 # EXPECTS CLOUD_TYPE
 # EXPECTS SLURM_MAIL
 
-SCRIPT_BASE="$(dirname -- "$0")"
+export SLURM_SCRIPT_BASE="$(dirname -- "$0")"
 
 [ -z "$CLOUD_TYPE" ] && echo "CLOUD_TYPE not set!" && exit 1
 [ -z "$SLURM_MAIL" ] && echo "SLURM_MAIL not set!" && exit 1
@@ -40,5 +40,5 @@ if [ $CLOUD_TYPE = "arc" ]; then
   EXTRA_OPTIONS+=("--qos ecr")
 fi
 
-echo sbatch --mail_user $SLURM_MAIL "${EXTRA_OPTIONS[@]}" "${UNPROCESSED_ARGS[@]}" -- $SCRIPT_BASE/sbatch_script.sh "${SCRIPT_ARGS[@]}"
-# sbatch --mail_user $SLURM_MAIL "${EXTRA_OPTIONS[@]}" "${UNPROCESSED_ARGS[@]}" -- $SCRIPT_BASE/sbatch_script.sh "${SCRIPT_ARGS[@]}"
+echo sbatch --mail-user $SLURM_MAIL "${EXTRA_OPTIONS[@]}" "${UNPROCESSED_ARGS[@]}" -- $SLURM_SCRIPT_BASE/sbatch_script.sh "${SCRIPT_ARGS[@]}"
+sbatch --export=ALL --mail-user $SLURM_MAIL "${EXTRA_OPTIONS[@]}" "${UNPROCESSED_ARGS[@]}" -- $SLURM_SCRIPT_BASE/sbatch_script.sh "${SCRIPT_ARGS[@]}"

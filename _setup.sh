@@ -11,9 +11,7 @@ set -e
 # Uncomment to enable tracing
 set -x
 
-SCRIPT_BASE="$(dirname -- "$0")"
-
-. ${SCRIPT_BASE}/${CLOUD_TYPE}/_setup.sh
+. ${SLURM_SCRIPT_BASE}/${CLOUD_TYPE}/_setup_config.sh
 
 export BUILD_DIR=$TMPDIR/pip-build
 
@@ -31,7 +29,7 @@ else
   conda install -y pytorch=1.8.1 torchvision cudatoolkit=10.2 ignite -c pytorch
 fi
 
-if test  -f "setup.py" -o -f "setup.cfg"; then
+if test  -f "setup.py"; then
   pip install -e .
 fi
 

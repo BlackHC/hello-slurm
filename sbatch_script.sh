@@ -4,6 +4,12 @@
 #SBATCH --output="slurm-%j.%t.%N.batch.out"
 #SBATCH --mail-type=END,FAIL
 
+# EXCEPTS SLURM_SCRIPT_BASE
+# EXCEPTS CLOUD_TYPE
+
+[ -z "$SLURM_SCRIPT_BASE" ] && echo "SLURM_SCRIPT_BASE not set!" && exit 1
+[ -z "$CLOUD_TYPE" ] && echo "CLOUD_TYPE not set!" && exit 1
+
 echo "SBATCH node: $(hostname)"
 
 # exit when any command fails
@@ -12,14 +18,9 @@ set -e
 # enable tracing
 set -x
 
-# REQUIRE CLOUD_TYPE environment variable
-[ -z "$CLOUD_TYPE" ] && echo "CLOUD_TYPE not set!" && exit 1
-
-SCRIPT_BASE="$(dirname -- "$0")"
-
 # shellcheck source=arc/_sbatch_config.sh
 # Set CONDA_ENVS_PATH
-. ${SCRIPT_BASE}/${CLOUD_TYPE}/_sbatch_config.sh
+. ${SLURM_SCRIPT_BASE}/${CLOUD_TYPE}/_sbatch_config.sh
 
 # This is a configuration option for _setup.sh
 export PYTHON_VERSION=3.8
