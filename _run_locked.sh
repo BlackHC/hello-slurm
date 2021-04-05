@@ -33,6 +33,7 @@ function cleanup() {
     echo "Lock released at `date`"
 }
 
+# Lock for 6 minutes
 lockfile -l 360 $lockfile_name
 trap cleanup EXIT
 

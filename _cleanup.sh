@@ -1,5 +1,5 @@
 #!/bin/bash
-# _cleanup.sh /scratch-ssd/$USER/conda_envs/hello-slurm
+# Example: _cleanup.sh /scratch-ssd/$USER/conda_envs/hello-slurm
 
 echo "Node $(hostname)"
 
@@ -9,6 +9,6 @@ set -e
 # Uncomment to enable tracing
 set -x
 
-ENV_PATH="$1"
+CURRENT_CONDA_ENV_PATH="$1"
 
-conda env remove -q -y -p "$ENV_PATH" 
+conda env remove -q -y -p "$CURRENT_CONDA_ENV_PATH"

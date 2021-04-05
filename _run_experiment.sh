@@ -1,5 +1,6 @@
 #!/bin/bash
-# _run_experiment.sh /scratch-ssd/$USER/conda_envs/hello-slurm ...
+# _run_experiment.sh ...
+# EXPECTS CURRENT_CONDA_ENV_PATH
 
 echo "Node $(hostname)"
 
@@ -9,13 +10,7 @@ set -e
 # Uncomment to enable tracing
 set -x
 
-ENV_PATH="$1"
+source activate "$CURRENT_CONDA_ENV_PATH"
 
-export CONDA_ENVS_PATH=/scratch-ssd/$USER/conda_envs
-export FASTAI_HOME=/scratch-ssd/$USER/.fastai
+python "${@}"
 
-source activate "$ENV_PATH"
-
-python "${@:2}"
-
-# Clean up or other stuff
