@@ -37,7 +37,7 @@ done
 SCRIPT_ARGS=("${@:$OPTIONS_LENGTH+2}")
 
 if [ $CLOUD_TYPE = "arc" ]; then
-  EXTRA_OPTIONS+=("--qos ecr")
+  EXTRA_OPTIONS+=("--qos=ecr")
 fi
 
 echo sbatch --mail-user $SLURM_MAIL "${EXTRA_OPTIONS[@]}" "${UNPROCESSED_ARGS[@]}" -- $SLURM_SCRIPT_BASE/sbatch_script.sh "${SCRIPT_ARGS[@]}"

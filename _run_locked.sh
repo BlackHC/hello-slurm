@@ -11,11 +11,6 @@
 # This file is from:
 # https://github.com/OATML/OATML-resources/tree/master/lab_servers/run_locked.sh
 
-if ! [ -x "$(command -v lockfile)" ]; then
-  echo "Error: lockfile not available, must install procmail." >&2
-  exit 1
-fi
-
 if [ $# -eq 0 ]
   then
     echo "Usage run_locked.sh [command] [arguments]"
@@ -23,7 +18,7 @@ if [ $# -eq 0 ]
 fi
 
 # We have a single lock per user.
-lockfile_name=/tmp/run_locked_$USER
+lockfile_name=$TMPDIR/run_locked_$USER
 echo "Waiting for lock $lockfile_name at `date`"
 echo "(will force acquire the lock in 3 minutes)"
 # Force acquire the lock after a timeout of 180 seconds. This prevents us
@@ -34,7 +29,12 @@ function cleanup() {
 }
 
 # Lock for 6 minutes
-lockfile -l 360 $lockfile_name
+if which lockfile; then
+    lockfile -l 360 $lockfile_name
+else
+    echo "Warning: 'lockfile' not found! Continuing, assuming no clashes!"
+fi
+
 trap cleanup EXIT
 
 echo "Lock acquired at `date`"
