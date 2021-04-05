@@ -13,7 +13,7 @@
 
 if [ $# -eq 0 ]
   then
-    echo "Usage run_locked.sh [command] [arguments]"
+    echo "Usage _run_locked.sh [command] [arguments]"
     exit
 fi
 
@@ -32,7 +32,7 @@ function cleanup() {
 if which lockfile; then
     lockfile -l 360 $lockfile_name
 else
-    echo "Warning: 'lockfile' not found! Continuing, assuming no clashes!"
+    echo "Warning: 'lockfile' (install procmail? not found! Continuing, assuming no clashes!"
 fi
 
 trap cleanup EXIT

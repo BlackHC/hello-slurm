@@ -2,7 +2,8 @@
 # EXPECTS CLOUD_TYPE
 # EXPECTS SLURM_MAIL
 
-export SLURM_SCRIPT_BASE="$(dirname -- "$0")"
+SLURM_SCRIPT_INCLUDE="$(dirname -- "$0")/../include"
+export SLURM_SCRIPT_INCLUDE
 
 [ -z "$CLOUD_TYPE" ] && echo "CLOUD_TYPE not set!" && exit 1
 [ -z "$SLURM_MAIL" ] && echo "SLURM_MAIL not set!" && exit 1
@@ -31,14 +32,14 @@ do
     esac
 done
 
-# REQUIRE SCRIPT_ARGS_START not emtpy!
+# REQUIRE a -- not emtpy!
 [ -z "$FOUND_DDASH" ] && echo "'--' missing to separate sbatch arguments from experiment arguments!" && exit 1
 
 SCRIPT_ARGS=("${@:$OPTIONS_LENGTH+2}")
 
-if [ $CLOUD_TYPE = "arc" ]; then
+if [ "$CLOUD_TYPE" = "arc" ]; then
   EXTRA_OPTIONS+=("--qos=ecr")
 fi
 
-echo sbatch --mail-user $SLURM_MAIL "${EXTRA_OPTIONS[@]}" "${UNPROCESSED_ARGS[@]}" -- $SLURM_SCRIPT_BASE/sbatch_script.sh "${SCRIPT_ARGS[@]}"
-sbatch --export=ALL --mail-user $SLURM_MAIL "${EXTRA_OPTIONS[@]}" "${UNPROCESSED_ARGS[@]}" -- $SLURM_SCRIPT_BASE/sbatch_script.sh "${SCRIPT_ARGS[@]}"
+echo sbatch --mail-user "$SLURM_MAIL" "${EXTRA_OPTIONS[@]}" "${UNPROCESSED_ARGS[@]}" -- "$SLURM_SCRIPT_INCLUDE/sbatch_script.sh" "${SCRIPT_ARGS[@]}"
+sbatch --export=ALL --mail-user "$SLURM_MAIL" "${EXTRA_OPTIONS[@]}" "${UNPROCESSED_ARGS[@]}" -- "$SLURM_SCRIPT_INCLUDE/sbatch_script.sh" "${SCRIPT_ARGS[@]}"

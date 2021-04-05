@@ -4,10 +4,10 @@
 #SBATCH --output="slurm-%j.%t.%N.batch.out"
 #SBATCH --mail-type=END,FAIL
 
-# EXCEPTS SLURM_SCRIPT_BASE
+# EXCEPTS SLURM_SCRIPT_INCLUDE
 # EXCEPTS CLOUD_TYPE
 
-[ -z "$SLURM_SCRIPT_BASE" ] && echo "SLURM_SCRIPT_BASE not set!" && exit 1
+[ -z "$SLURM_SCRIPT_INCLUDE" ] && echo "SLURM_SCRIPT_INCLUDE not set!" && exit 1
 [ -z "$CLOUD_TYPE" ] && echo "CLOUD_TYPE not set!" && exit 1
 
 echo "SBATCH node: $(hostname)"
@@ -20,7 +20,7 @@ set -x
 
 # shellcheck source=arc/_sbatch_config.sh
 # Set CONDA_ENVS_PATH
-. ${SLURM_SCRIPT_BASE}/${CLOUD_TYPE}/_sbatch_config.sh
+. ${SLURM_SCRIPT_INCLUDE}/${CLOUD_TYPE}/_sbatch_config.sh
 
 # This is a configuration option for _setup.sh
 export PYTHON_VERSION=3.8

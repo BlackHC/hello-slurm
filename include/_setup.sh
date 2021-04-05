@@ -11,7 +11,7 @@ set -e
 # Uncomment to enable tracing
 set -x
 
-. ${SLURM_SCRIPT_BASE}/${CLOUD_TYPE}/_setup_config.sh
+. ${SLURM_SCRIPT_INCLUDE}/${CLOUD_TYPE}/_setup_config.sh
 
 export BUILD_DIR=$TMPDIR/pip-build
 
