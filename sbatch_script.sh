@@ -1,7 +1,7 @@
 #!/bin/bash
 # You can also set environment variables to set options.
 #SBATCH --cpus-per-task=4
-#SBATCH --output="slurm-%j.batch.out"
+#SBATCH --output="slurm-%j.%t.%N.batch.out"
 #SBATCH --mail-type=END,FAIL
 
 echo "SBATCH node: $(hostname)"
@@ -39,3 +39,5 @@ ARGS=("${@//%SLURM_ARRAY_TASK_ID/$SLURM_ARRAY_TASK_ID}")
 #srun --output="slurm-%j.%t.setup.out" --ntasks-per-node=1 \
 ./_run_locked.sh ./_setup.sh && \
     srun --output="slurm-%j.%t.experiment.out" ./_run_experiment.sh "${ARGS[@]}"
+
+    
