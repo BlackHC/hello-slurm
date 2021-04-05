@@ -52,7 +52,7 @@ class SlurmInfo:
         return SlurmInfo(
             job_id=os.environ["SLURM_JOB_ID"],
             job_name=os.environ["SLURM_JOB_NAME"],
-            array_job_value=_int_or_none(os.environ.get("SLURM_ARRAY_JOB_ID")),
+            array_master_job_id=_int_or_none(os.environ.get("SLURM_ARRAY_JOB_ID")),
             array_job_idx=_int_or_none(os.environ.get("SLURM_ARRAY_TASK_ID")),
             cluster_name=os.environ["SLURM_CLUSTER_NAME"],
             cpus_per_task=_int_or_none(os.environ.get("SLURM_CPUS_PER_TASK")),
