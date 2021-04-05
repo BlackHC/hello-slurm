@@ -1,0 +1,44 @@
+#!/bin/bash
+# EXPECTS CLOUD_TYPE
+# EXPECTS SLURM_MAIL
+
+SCRIPT_BASE="$(dirname -- "$0")"
+
+[ -z "$CLOUD_TYPE" ] && echo "CLOUD_TYPE not set!" && exit 1
+[ -z "$SLURM_MAIL" ] && echo "SLURM_MAIL not set!" && exit 1
+
+ARGS=("$@")
+
+UNPROCESSED_ARGS=()
+
+EXTRA_OPTIONS=()
+
+OPTIONS_LENGTH=0
+for ARG in "${ARGS[@]}"
+do
+  case "$ARG" in
+    --any_gpu)
+      EXTRA_OPTIONS=("--gres=gpu:1")
+      ;;
+    --)
+      FOUND_DDASH=1
+      break
+      ;;
+    *)
+      UNPROCESSED_ARGS+=("$ARG")
+      ((OPTIONS_LENGTH++))
+      ;;
+    esac
+done
+
+# REQUIRE SCRIPT_ARGS_START not emtpy!
+[ -z "$FOUND_DDASH" ] && echo "'--' missing to separate sbatch arguments from experiment arguments!" && exit 1
+
+SCRIPT_ARGS=("${@:$OPTIONS_LENGTH+2}")
+
+if [ $CLOUD_TYPE = "arc" ]; then
+  EXTRA_OPTIONS+=("--qos ecr")
+fi
+
+echo sbatch --mail_user $SLURM_MAIL "${EXTRA_OPTIONS[@]}" "${UNPROCESSED_ARGS[@]}" -- $SCRIPT_BASE/sbatch_script.sh "${SCRIPT_ARGS[@]}"
+# sbatch --mail_user $SLURM_MAIL "${EXTRA_OPTIONS[@]}" "${UNPROCESSED_ARGS[@]}" -- $SCRIPT_BASE/sbatch_script.sh "${SCRIPT_ARGS[@]}"

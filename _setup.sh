@@ -1,5 +1,9 @@
 #!/bin/bash
-# _setup.sh /scratch-ssd/$USER/conda_envs/hello-slurm
+# _setup.sh
+# EXPECTS CURRENT_CONDA_ENV_PATH
+# EXPECTS CLOUD_TYPE
+
+echo "Node $(hostname)"
 
 # Exit when any command fails
 set -e
@@ -7,21 +11,28 @@ set -e
 # Uncomment to enable tracing
 set -x
 
-echo "Node $(hostname)"
+SCRIPT_BASE="$(dirname -- "$0")"
 
-ENV_PATH="$1"
+. ${SCRIPT_BASE}/${CLOUD_TYPE}/_setup.sh
 
-mkdir -p $TMPDIR
-export BUILD_DIR=/scratch-ssd/${USER}/conda_envs/pip-build
+export BUILD_DIR=$TMPDIR/pip-build
 
-conda config --add channels conda-forge 
-conda config --set channel_priority strict
+conda config --add channels conda-forge
+conda config --set channel_priority flexible
 
-conda create -q -y -p "$ENV_PATH" python=3.7
-source activate "$ENV_PATH"
+conda create -q -y -p "$CURRENT_CONDA_ENV_PATH" python=${PYTHON_VERSION}
+source activate "$CURRENT_CONDA_ENV_PATH"
 
+: ${CONDA_ENV_FILE:="slurm-conda.yml"}
 
-# Install conda and pip packages now.
-conda install -q -y pytorch torchvision cudatoolkit=10.2 -c pytorch
+if test -f "$CONDA_ENV_FILE"; then
+  conda env update -y --file ${CONDA_ENV_FILE}
+else
+  conda install -y pytorch=1.8.1 torchvision cudatoolkit=10.2 ignite -c pytorch
+fi
+
+if test  -f "setup.py" -o -f "setup.cfg"; then
+  pip install -e .
+fi
 
 # nvidia-smi || true
