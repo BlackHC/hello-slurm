@@ -20,7 +20,7 @@ class SlurmInfo:
 
     job_id: int
     job_name: str
-    array_job_value: typing.Optional[int]
+    array_master_job_id: typing.Optional[int]
     # array_task_idx is a misleading name because it not connected to the job/step/task context
     array_job_idx: typing.Optional[int]
 
