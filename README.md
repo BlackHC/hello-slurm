@@ -2,6 +2,10 @@
 
 Comes as is.
 
+## Example
+
+```./bsbatch --array 900 --job-name hello --time=01:30:00 -- hello.py```
+
 ## Requirements
 
 Set environment variables:
