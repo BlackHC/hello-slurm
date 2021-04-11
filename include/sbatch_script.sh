@@ -1,7 +1,7 @@
 #!/bin/bash
 # You can also set environment variables to set options.
 #SBATCH --cpus-per-task=4
-#SBATCH --output="slurm-%j.%t.%N.batch.out"
+#SBATCH --output="slurm-%j.setup.%A_%a.%N.out"
 #SBATCH --mail-type=END,FAIL
 
 # EXCEPTS SLURM_SCRIPT_INCLUDE
@@ -38,6 +38,6 @@ ARGS=("${@//%SLURM_ARRAY_TASK_ID/$SLURM_ARRAY_TASK_ID}")
 # Only one task/node when running with job arrays.
 #srun --output="slurm-%j.%t.setup.out" --ntasks-per-node=1 \
 "${SLURM_SCRIPT_INCLUDE}/_run_locked.sh" "${SLURM_SCRIPT_INCLUDE}/_setup.sh" && \
-    srun --output="slurm-%j.%t.experiment.out" "${SLURM_SCRIPT_INCLUDE}/_run_experiment.sh" "${ARGS[@]}"
+    srun --output="slurm-%j.experiment.%A_%a.%N.out" "${SLURM_SCRIPT_INCLUDE}/_run_experiment.sh" "${ARGS[@]}"
 
     
