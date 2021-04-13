@@ -20,6 +20,7 @@ do
   case "$ARG" in
     --any_gpu)
       EXTRA_OPTIONS=("--gres=gpu:1")
+      ((OPTIONS_LENGTH++))
       ;;
     --)
       FOUND_DDASH=1
@@ -41,5 +42,5 @@ if [ "$CLOUD_TYPE" = "arc" ]; then
   EXTRA_OPTIONS+=("--qos=ecr")
 fi
 
-echo sbatch --mail-user "$SLURM_MAIL" "${EXTRA_OPTIONS[@]}" "${UNPROCESSED_ARGS[@]}" -- "$SLURM_SCRIPT_INCLUDE/sbatch_script.sh" "${SCRIPT_ARGS[@]}"
+echo sbatch --export=ALL --mail-user "$SLURM_MAIL" "${EXTRA_OPTIONS[@]}" "${UNPROCESSED_ARGS[@]}" -- "$SLURM_SCRIPT_INCLUDE/sbatch_script.sh" "${SCRIPT_ARGS[@]}"
 sbatch --export=ALL --mail-user "$SLURM_MAIL" "${EXTRA_OPTIONS[@]}" "${UNPROCESSED_ARGS[@]}" -- "$SLURM_SCRIPT_INCLUDE/sbatch_script.sh" "${SCRIPT_ARGS[@]}"

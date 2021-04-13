@@ -12,7 +12,7 @@ set -e
 set -x
 
 # shellcheck source=./arc/_setup_config.sh
-. ${SLURM_SCRIPT_INCLUDE}/${CLOUD_TYPE}/_setup_config.sh
+. "${SLURM_SCRIPT_INCLUDE}/${CLOUD_TYPE}/_setup_config.sh"
 
 export BUILD_DIR=$TMPDIR/pip-build
 

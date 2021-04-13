@@ -6,7 +6,7 @@ The shell scripts here provide a thin wrapper around sbatch to execute Python sc
 
 ## Example
 
-```./bsbatch --array 900 --job-name hello --time=01:30:00 -- example/hello.py```
+```bsbatch --array 900 --job-name hello --time=01:30:00 -- example/hello.py```
 
 
 ## Setup
@@ -16,7 +16,7 @@ The shell scripts here provide a thin wrapper around sbatch to execute Python sc
 1. Set environment variables on both OATCLOUD and ARC:
     
     * `CLOUD_TYPE` to either `arc` or `oatml`.
-    * `SLURM_MAIL` to your preferred email address to receive notifications (or e.g. a slack integration)
+    * `SLURM_MAIL` to your preferred email address to receive notifications (also works with Slack).
 
 `SLURM_MAIL` is required at the moment. If you want to disable it, fork the repository and hack the scripts :tada:
 
@@ -28,7 +28,7 @@ The shell scripts here provide a thin wrapper around sbatch to execute Python sc
   * supports `%SLURM_ARRAY_TASK_ID` in script arguments and turns it into `$SLURM_ARRAY_TASK_ID`.
   
    ```bsbatch [options] -- script_name.py [script arguments]```
-  * supports `--any_gpu` to request a single GPU as additioanl resource.
+  * supports `--any_gpu` to request a single GPU as additional resource.
 
    By default 4 CPUs are requested, see `include/sbatch_script.sh`.
 
