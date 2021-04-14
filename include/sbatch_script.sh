@@ -38,6 +38,6 @@ ARGS=("${@//%SLURM_ARRAY_TASK_ID/$SLURM_ARRAY_TASK_ID}")
 # Only one task/node when running with job arrays.
 #srun --output="slurm-%j.%t.setup.out" --ntasks-per-node=1 \
 "${SLURM_SCRIPT_INCLUDE}/_run_locked.sh" "${SLURM_SCRIPT_INCLUDE}/_setup.sh" && \
-    srun --output="slurm-%j.experiment.%A_%a.%N.out" "${SLURM_SCRIPT_INCLUDE}/_run_experiment.sh" "${ARGS[@]}"
+    ("${SLURM_SCRIPT_INCLUDE}/_run_experiment.sh" "${ARGS[@]}" > "slurm-%j.experiment.%A_%a.%N.out" 2>&1)
 
     
