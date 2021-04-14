@@ -1,7 +1,6 @@
 #!/bin/bash
 # You can also set environment variables to set options.
-#SBATCH --cpus-per-task=4
-#SBATCH --output="slurm-%j.%A_%a.%N.out"
+#SBATCH --output="%x-%j.%A_%a.%N.slurm.out"
 #SBATCH --mail-type=END,FAIL
 
 # EXCEPTS SLURM_SCRIPT_INCLUDE

@@ -18,7 +18,11 @@ OPTIONS_LENGTH=0
 for ARG in "${ARGS[@]}"
 do
   case "$ARG" in
-    --any_gpu)
+    --rtx)
+      EXTRA_OPTIONS=("--gres=gpu:rtx:1")
+      ((OPTIONS_LENGTH++))
+      ;;
+    --gpu)
       EXTRA_OPTIONS=("--gres=gpu:1")
       ((OPTIONS_LENGTH++))
       ;;
@@ -39,8 +43,16 @@ done
 SCRIPT_ARGS=("${@:$OPTIONS_LENGTH+2}")
 
 if [ "$CLOUD_TYPE" = "arc" ]; then
-  EXTRA_OPTIONS+=("--qos=ecr")
+  : "${SBATCH_CPUS_PER_GPU:=3}"
+  : "${SBATCH_PARTITION:=htc-nova}"
+  : "${SBATCH_RESERVATION:=ecr_202104}"
+  : "${SBATCH_QOS:=ecr}"
+elif [ "$CLOUD_TYPE" = "oatcloud" ]; then
+  : "${SBATCH_CPUS_PER_GPU:=4}"
 fi
+
+echo SLURM Environment:
+env | grep SBATCH
 
 echo sbatch --export=ALL --mail-user "$SLURM_MAIL" "${EXTRA_OPTIONS[@]}" "${UNPROCESSED_ARGS[@]}" -- "$SLURM_SCRIPT_INCLUDE/sbatch_script.sh" "${SCRIPT_ARGS[@]}"
 sbatch --export=ALL --mail-user "$SLURM_MAIL" "${EXTRA_OPTIONS[@]}" "${UNPROCESSED_ARGS[@]}" -- "$SLURM_SCRIPT_INCLUDE/sbatch_script.sh" "${SCRIPT_ARGS[@]}"

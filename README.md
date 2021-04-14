@@ -28,9 +28,9 @@ The shell scripts here provide a thin wrapper around sbatch to execute Python sc
   * supports `%SLURM_ARRAY_TASK_ID` in script arguments and turns it into `$SLURM_ARRAY_TASK_ID`.
   
    ```bsbatch [options] -- script_name.py [script arguments]```
-  * supports `--any_gpu` to request a single GPU as additional resource.
+  * supports `--gpu` or `--rtx` to request a single GPU as additional resource (generic or rtx).
 
-   By default 4 CPUs are requested, see `include/sbatch_script.sh`.
+   By default 4 CPUs, respectively 3 CPUS (for ARC), are requested, see `include/sbatch_script.sh`.
 
 * `bexportconda` creates `slum-conda.yml` from the current environment, which `bsbatch` supports automatically.
 
