@@ -22,8 +22,8 @@ conda config --set channel_priority flexible
 conda create -q -y -p "${CURRENT_CONDA_ENV_PATH}" "python=${PYTHON_VERSION}"
 source activate "${CURRENT_CONDA_ENV_PATH}"
 
-: ${CONDA_ENV_FILE:="slurm-conda.yml"}
-: ${MANUAL_SETUP:="_setup.sh"}
+: "${CONDA_ENV_FILE:=slurm-conda.yml}"
+: "${MANUAL_SETUP:=_setup.sh}"
 
 if test -f "${MANUAL_SETUP}"; then
   "${MANUAL_SETUP}"
