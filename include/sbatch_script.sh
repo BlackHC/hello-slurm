@@ -1,6 +1,6 @@
 #!/bin/bash
 # You can also set environment variables to set options.
-#SBATCH --output="%x-%j.%A_%a.%N.slurm.out"
+#SBATCH --output="%x-%A_%a.%N.%j.slurm.out"
 #SBATCH --mail-type=END,FAIL
 
 # EXCEPTS SLURM_SCRIPT_INCLUDE
