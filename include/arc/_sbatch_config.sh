@@ -12,7 +12,7 @@ module load python/anaconda3/2020.02
 #export CONDA_PKGS_DIRS=$DATA/conda_pkgs_cache
 # TODO: switch to mamba as soon as they push a release with the new lockfile code.
 # See https://github.com/mamba-org/mamba/issues/739
-export CONDA_ENVS_PATH=$TMPDIR/conda_envs
+export CONDA_PKGS_DIRS=$TMPDIR/conda_pkgs_cache
 
 # Store conda envs locally
 export CONDA_ENVS_PATH=$TMPDIR/conda_envs
