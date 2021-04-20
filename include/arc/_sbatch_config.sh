@@ -7,8 +7,13 @@ module load python/anaconda3/2020.02
 # $TMPDIR is local to a compute node
 # $DATA (/data/projectname/username)  sharing a 5TB quota with your project colleagues
 
-# Cache packages globally
-export CONDA_PKGS_DIRS=$DATA/conda_pkgs_cache
+# Cache packages locally
+# NOTE: conda race condition means we cannot use a single package cache reliably
+#export CONDA_PKGS_DIRS=$DATA/conda_pkgs_cache
+# TODO: switch to mamba as soon as they push a release with the new lockfile code.
+# See https://github.com/mamba-org/mamba/issues/739
+export CONDA_ENVS_PATH=$TMPDIR/conda_envs
+
 # Store conda envs locally
 export CONDA_ENVS_PATH=$TMPDIR/conda_envs
 

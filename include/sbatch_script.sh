@@ -3,6 +3,8 @@
 #SBATCH --output="%x-%A_%a.%N.%j.slurm.out"
 #SBATCH --mail-type=END,FAIL
 
+echo "$@"
+
 # EXCEPTS SLURM_SCRIPT_INCLUDE
 # EXCEPTS CLOUD_TYPE
 
