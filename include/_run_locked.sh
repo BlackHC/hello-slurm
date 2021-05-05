@@ -18,19 +18,22 @@ if [ $# -eq 0 ]
 fi
 
 # We have a single lock per user.
-lockfile_name=$TMPDIR/run_locked_$USER
-echo "Waiting for lock $lockfile_name at `date`"
-echo "(will force acquire the lock in 3 minutes)"
+LOCKFILE_NAME=$TMPDIR/run_locked_$USER
+
 # Force acquire the lock after a timeout of 180 seconds. This prevents us
 # getting stuck if the previous job is cancelled or crashes.
 function cleanup() {
-    rm -f $lockfile_name
+    rm -f $LOCKFILE_NAME
     echo "Lock released at `date`"
 }
 
+LOCK_DURATION=$((180 + 15 * ($RANDOM % 10)))
+echo "Waiting for lock $LOCKFILE_NAME at `date`"
+echo "(will force acquire the lock in 3 minutes)"
+
 # Lock for 6 minutes
 if which lockfile; then
-    lockfile -l 360 $lockfile_name
+    lockfile -l $LOCK_DURATION $LOCKFILE_NAME
 else
     echo "Warning: 'lockfile' (install procmail? not found! Continuing, assuming no clashes!"
 fi
