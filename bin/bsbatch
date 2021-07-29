@@ -2,6 +2,8 @@
 # EXPECTS CLOUD_TYPE
 # EXPECTS SLURM_MAIL
 
+# set -x
+
 SLURM_SCRIPT_INCLUDE="$(dirname -- "$0")/../include"
 export SLURM_SCRIPT_INCLUDE
 
@@ -46,8 +48,10 @@ if [ "$CLOUD_TYPE" = "arc" ]; then
   #: "${SBATCH_CPUS_PER_GPU:=3}"
   #: "${SBATCH_RESERVATION:=ecr_202104}"
   : "${SBATCH_PARTITION:=short}"
+  export SBATCH_PARTITION
   : "${SBATCH_QOS:=ecr}"
-  EXTRA_OPTIONS+=("--cpus-per-task=4")
+  export SBATCH_QOS
+  EXTRA_OPTIONS+=("--cpus-per-task=3")
 elif [ "$CLOUD_TYPE" = "oatcloud" ]; then
   EXTRA_OPTIONS+=("--cpus-per-task=4")
 fi
@@ -57,3 +61,4 @@ env | grep SBATCH
 
 echo sbatch --export=ALL --mail-user "$SLURM_MAIL" "${EXTRA_OPTIONS[@]}" "${UNPROCESSED_ARGS[@]}" -- "$SLURM_SCRIPT_INCLUDE/sbatch_script.sh" "${SCRIPT_ARGS[@]}"
 sbatch --export=ALL --mail-user "$SLURM_MAIL" "${EXTRA_OPTIONS[@]}" "${UNPROCESSED_ARGS[@]}" -- "$SLURM_SCRIPT_INCLUDE/sbatch_script.sh" "${SCRIPT_ARGS[@]}"
+

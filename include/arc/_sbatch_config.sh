@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Load anaconda and python
-module load python/anaconda3/2020.02
+module load Anaconda3/2020.11
+module load CUDA/11.1.1-GCC-10.2.0
 
 # $SCRATCH is on a shared file system and available to all nodes in a job, if a job spans multiple nodes.
 # $TMPDIR is local to a compute node
@@ -18,3 +19,4 @@ export CONDA_PKGS_DIRS=$TMPDIR/conda_pkgs_cache
 export CONDA_ENVS_PATH=$TMPDIR/conda_envs
 
 export FASTAI_HOME=$DATA/.fastai
+
