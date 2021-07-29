@@ -45,9 +45,9 @@ SCRIPT_ARGS=("${@:$OPTIONS_LENGTH+2}")
 if [ "$CLOUD_TYPE" = "arc" ]; then
   #: "${SBATCH_CPUS_PER_GPU:=3}"
   #: "${SBATCH_RESERVATION:=ecr_202104}"
-  : "${SLURM_CPUS_PER_TASK:=3}"
   : "${SBATCH_PARTITION:=short}"
   : "${SBATCH_QOS:=ecr}"
+  EXTRA_OPTIONS+=("--cpus-per-task=4")
 elif [ "$CLOUD_TYPE" = "oatcloud" ]; then
   EXTRA_OPTIONS+=("--cpus-per-task=4")
 fi
