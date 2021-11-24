@@ -34,7 +34,8 @@ if test -f "${MANUAL_SETUP}"; then
 elif test -f "${CONDA_ENV_FILE}"; then
   conda env update -y --file "${CONDA_ENV_FILE}"
 else
-  conda install -y pytorch=1.8.1 "torchvision>=0.8.1" cudatoolkit=10.2 ignite -c pytorch
+  #conda install -y pytorch=1.8.1 "torchvision>=0.8.1" cudatoolkit=10.2 ignite -c pytorch
+  conda install -y pytorch=1.10.0 torchvision torchaudio cudatoolkit=11.3 ignite -c pytorch
 fi
 
 if test  -f "setup.py"; then
