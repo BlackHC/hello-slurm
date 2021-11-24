@@ -1,7 +1,11 @@
 #!/bin/bash
 # _setup.sh
-# EXPECTS CURRENT_CONDA_ENV_PATH
-# EXPECTS CLOUD_TYPE
+# EXPECTS:
+# - SLURM_SCRIPT_INCLUDE
+# - CURRENT_CONDA_ENV_PATH
+# - CLOUD_TYPE
+# - PYTHON_VERSION
+# - TMPDIR
 
 echo "Node $(hostname)"
 
