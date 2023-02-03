@@ -24,6 +24,10 @@ do
       EXTRA_OPTIONS=("--gres=gpu:rtx:1")
       ((OPTIONS_LENGTH++))
       ;;
+    --titanrtx)
+      EXTRA_OPTIONS=("--gres=gpu:titanrtx:1")
+      ((OPTIONS_LENGTH++))
+      ;;
     --gpu)
       EXTRA_OPTIONS=("--gres=gpu:1")
       ((OPTIONS_LENGTH++))
