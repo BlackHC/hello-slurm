@@ -26,15 +26,22 @@ conda config --set channel_priority flexible
 conda create -q -y -p "${CURRENT_CONDA_ENV_PATH}" "python=${PYTHON_VERSION}"
 source activate "${CURRENT_CONDA_ENV_PATH}"
 
+: "${CONDA_TXT_FILE:=slurm-conda.txt}"
 : "${CONDA_ENV_FILE:=slurm-conda.yml}"
 : "${MANUAL_SETUP:=_setup.sh}"
 
 if test -f "${MANUAL_SETUP}"; then
   "${MANUAL_SETUP}"
+elif test -f "${CONDA_TXT_FILE}"; then
+  conda update -y --file "${CONDA_TXT_FILE}"
 elif test -f "${CONDA_ENV_FILE}"; then
   conda env update -y --file "${CONDA_ENV_FILE}"
 else
-  #conda install -y pytorch=1.8.1 "torchvision>=0.8.1" cudatoolkit=10.2 ignite -c pytorch
+  # conda install -y pytorch=1.8.1 "torchvision>=0.8.1" cudatoolkit=10.2 ignite -c pytorch
+  
+  # conda install -y pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch-lts
+  # conda install ignite -c pytorch
+
   conda install -y pytorch=1.10.0 torchvision torchaudio cudatoolkit=11.3 ignite -c pytorch
 fi
 

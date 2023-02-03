@@ -1,3 +1,6 @@
 #!/bin/bash
 
-conda env export --from-history "$@" > slurm-conda.yml
+#conda env export --from-history "$@" > slurm-conda.yml
+
+# This uses an explicit list of package URLs to fully reproduce an environment.
+conda list --explicit > slurm-conda.yml
