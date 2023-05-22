@@ -12,5 +12,13 @@ set -x
 
 source activate "$CURRENT_CONDA_ENV_PATH"
 
-python "${@}"
+# Check whether command type is python or bash and execute accordingly
+if [ "$COMMAND_TYPE" = "python" ]; then
+  python "${@}"
+elif [ "$COMMAND_TYPE" = "bash" ]; then
+  "${@}"
+else
+  echo "Unknown command type: $COMMAND_TYPE"
+  exit 1
+fi
 

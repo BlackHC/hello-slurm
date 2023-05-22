@@ -16,6 +16,8 @@ UNPROCESSED_ARGS=()
 
 EXTRA_OPTIONS=()
 
+COMMAND_TYPE="python"
+
 OPTIONS_LENGTH=0
 for ARG in "${ARGS[@]}"
 do
@@ -51,6 +53,10 @@ do
       EXTRA_OPTIONS+=("--cpus-per-task=8")
       ((OPTIONS_LENGTH++))
       ;;
+    --bash)
+      COMMAND_TYPE="bash"
+      ((OPTIONS_LENGTH++))
+      ;;
     --)
       FOUND_DDASH=1
       break
@@ -61,6 +67,8 @@ do
       ;;
     esac
 done
+
+export COMMAND_TYPE
 
 # REQUIRE a -- not emtpy!
 [ -z "$FOUND_DDASH" ] && echo "'--' missing to separate sbatch arguments from experiment arguments!" && exit 1
