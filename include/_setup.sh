@@ -37,7 +37,8 @@ elif test -f "${CONDA_TXT_FILE}"; then
 elif test -f "${CONDA_ENV_FILE}"; then
   conda env update -y --file "${CONDA_ENV_FILE}"
 else
-  conda install pytorch torchvision torchaudio pytorch-cuda=11.6 -c pytorch -c nvidia
+  #conda install pytorch torchvision torchaudio pytorch-cuda=11.6 -c pytorch -c nvidia
+  conda install -y pytorch=1.10.0 torchvision torchaudio cudatoolkit=11.3 ignite -c pytorch
 fi
 
 if test -f "setup.py"; then

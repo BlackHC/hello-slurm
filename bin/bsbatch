@@ -21,15 +21,34 @@ for ARG in "${ARGS[@]}"
 do
   case "$ARG" in
     --rtx)
+      # Is this for ARC?
       EXTRA_OPTIONS=("--gres=gpu:rtx:1")
+      EXTRA_OPTIONS+=("--cpus-per-task=3")
       ((OPTIONS_LENGTH++))
       ;;
     --titanrtx)
       EXTRA_OPTIONS=("--gres=gpu:titanrtx:1")
+      EXTRA_OPTIONS+=("--cpus-per-task=10")
       ((OPTIONS_LENGTH++))
       ;;
     --gpu)
       EXTRA_OPTIONS=("--gres=gpu:1")
+      EXTRA_OPTIONS+=("--cpus-per-task=4")
+      ((OPTIONS_LENGTH++))
+      ;;
+    --a100)
+      EXTRA_OPTIONS=("--gres=gpu:a100:1")
+      EXTRA_OPTIONS+=("--cpus-per-task=24")
+      ((OPTIONS_LENGTH++))
+      ;;
+    --3ga100)
+      EXTRA_OPTIONS=("--gres=gpu:3g.20gb:1")
+      EXTRA_OPTIONS+=("--cpus-per-task=8")
+      ((OPTIONS_LENGTH++))
+      ;;
+    --2ga100)
+      EXTRA_OPTIONS=("--gres=gpu:2g.20gb:1")
+      EXTRA_OPTIONS+=("--cpus-per-task=8")
       ((OPTIONS_LENGTH++))
       ;;
     --)
@@ -55,9 +74,10 @@ if [ "$CLOUD_TYPE" = "arc" ]; then
   export SBATCH_PARTITION
   : "${SBATCH_QOS:=ecr}"
   export SBATCH_QOS
-  EXTRA_OPTIONS+=("--cpus-per-task=3")
+  #EXTRA_OPTIONS+=("--cpus-per-task=3")
 elif [ "$CLOUD_TYPE" = "oatcloud" ]; then
-  EXTRA_OPTIONS+=("--cpus-per-task=4")
+  #EXTRA_OPTIONS+=("--cpus-per-task=4")
+  echo "${EXTRA_OPTIONS[@]}"
 fi
 
 echo SLURM Environment:

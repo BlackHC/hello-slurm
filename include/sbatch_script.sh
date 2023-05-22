@@ -24,7 +24,7 @@ set -x
 . "${SLURM_SCRIPT_INCLUDE}/${CLOUD_TYPE}/_sbatch_config.sh"
 
 # This is a configuration option for _setup.sh
-export PYTHON_VERSION=3.8
+export PYTHON_VERSION=3.9
 
 export CURRENT_CONDA_ENV_PATH="${CONDA_ENVS_PATH}/job-$SLURM_JOB_ID"
 
